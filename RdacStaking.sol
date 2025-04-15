@@ -75,10 +75,11 @@ contract RdacStaking is Initializable, UUPSUpgradeable, AccessControlUpgradeable
         if (_amount == 0) revert StakingNotFound();
         if (staking[msg.sender][_id].unlockAt > block.timestamp) revert NotUnlock();
 
-        _transferToken(address(this), msg.sender, _amount);
         staking[msg.sender][_id] = Staking({amount: 0, lockDays: 0, unlockAt: 0});
 
         emit Unstake(_id, msg.sender, _amount, block.timestamp);
+
+        _transferToken(address(this), msg.sender, _amount);
     }
 
     /**
